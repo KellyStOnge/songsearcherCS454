@@ -1,0 +1,86 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %} <!-- styleing background color-->
+{{ super() }}
+  <style>
+    body { background: #ffff; }
+  </style>
+{% endblock %}
+
+
+{% block title %}
+Snowboard Search Engine: Results
+{% endblock %}
+
+
+{% block content %}
+
+{%for i in range(0, len)%}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+
+      <!-- links to return to search page or link to purchase-->
+
+      <h1 class="pt-5 pb-2">{{ item[i] }}</h1>
+
+      <p><a href="{{ url_for('index') }}">Return to search page</a></p>
+      <p><a href="{{ url[i]}}">Link to purchase</a></p>
+
+
+      <p>{{description[i]}}</p>
+
+    </div>
+
+
+    <div class="col-sm-6"> <!-- Displaying the returned values -->
+
+      <img src="{{ picture[i] }}" alt="Photo: {{ name }}" class="img-fluid pt-5">
+
+      <p><em>Above: {{ item[i] }}</em></p>
+      <p><em>Size: {{ size[i] }}</em></p>
+      <p><em>Price: ${{ price[i] }}</em></p>
+      <p><em>Brand: {{brand[i]}}</em></p>
+      <p><em>Discount: {{discount[i]}}</em></p>
+ 
+      <body> <!-- note, price filter approut -->
+        <form method="post" action="{{ url_for('priceFilter', q3=query, p3=page) }}">
+          <p><em>Search This Query by Price:Ascending</em></p>
+          <input type="submit" value = "Price Filter" />
+        </form> 
+      </body> 
+
+    </div>
+  </div>
+</div>
+
+{%endfor%}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+
+
+        <!-- note, approuting tags for pagination -->
+ 
+      <body>
+        <form method="post" action="{{ url_for('next', qp=query, pp=page) }}">
+          <input type="submit" value = "Next Page" />
+        </form> 
+      
+
+        <p><em> Page:{{page}} / of {{pag}} </em></p>
+  
+      
+        <form method="post" action="{{ url_for('previous', q=query, p=page) }}">
+          <input type="submit" value = "Previous Page" />
+        </form> 
+      </body> 
+     
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
