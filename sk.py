@@ -119,7 +119,7 @@ with open('popular_artists.csv','r') as read_obj:
 				except requests.exceptions.Timeout:
 
 					print("retrying because of Timeout")
-					track -=1
+					track -=2
 
 					time.sleep(10)
 					break	

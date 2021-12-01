@@ -54,15 +54,18 @@ def next(qp,pp):
 	page = int(pp)
 
 	
-	item, description, picture, productType, brand, size, price, url, onsale, discount, page, Results = mysearch.index_search(keywordquery,page+1)
+	artist_id, artist, album, album_release, track, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released, page,  Results = mysearch.index_search(keywordquery,page+1)
 	
 	pag = math.ceil(Results/10) # passing the number of results so that the #number of pages shows 
 
 	if page == pag: #
 		page -=1	# SO IT DOESNT PASS THE TOTAL NUMBER OF PAGES
-		return  render_template('results.html', query=keywordquery, len = len(item), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, related_artists = related_artists, artist_genres =artist_genres,date_released =date_released)
+
 	else:
-		return  render_template('results.html', query=keywordquery, len = len(item), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, related_artists = related_artists, artist_genres =artist_genres,date_released =date_released)
 
 
 
@@ -81,18 +84,22 @@ def previous(q,p):
 	if page <=1:
 		page==2
 		
-		item, description, picture, productType, brand, size, price, url, onsale, discount, page, Results = mysearch.index_search(keywordquery,page)
+		artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released, page,  Results = mysearch.index_search(keywordquery,page)
 		
 		pag = math.ceil(Results/10)
 
-		return  render_template('results.html', query=keywordquery, len = len(item), pag =pag  , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, related_artists = related_artists, artist_genres =artist_genres,date_released =date_released)
+
 	else:
 		print(page)
-		item, description, picture, productType, brand, size, price, url, onsale, discount, page,  Results = mysearch.index_search(keywordquery,page-1)
+		artist_id, artist, album, album_release, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released, page,  Results = mysearch.index_search(keywordquery,page-1)
 
 		pag = math.ceil(Results/10)
 
-		return  render_template('results.html', query=keywordquery, len = len(item), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, related_artists = related_artists, artist_genres =artist_genres,date_released =date_released)
+
 	
 
 
@@ -109,7 +116,7 @@ def results():
 	keywordquery = data.get('searchterm')
 	
 
-	artist_id, artist, album, album_release, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released = mysearch.index_search(keywordquery,page)
+	artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released, page,  Results = mysearch.index_search(keywordquery,page)
 	
 	pag = math.ceil(Results/10)
 
@@ -117,7 +124,8 @@ def results():
 		flash("Not in the search, try again")
 		return render_template('welcome_page.html')
 	else:
-		return render_template('results.html', query=keywordquery, len = len(item), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, related_artists = related_artists, artist_genres =artist_genres,date_released =date_released)
 
 
 @app.route('/priceFilter/<q3>/<p3>', methods=['GET', 'POST'])
@@ -131,7 +139,7 @@ def priceFilter(q3,p3):
 	
 	pag = math.ceil(Results/10)
 
-	return render_template('results.html', query=keywordquery, len = len(item), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
+	return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, item =item, description= description, picture =picture, productType = productType, brand = brand, size = size, price =price, url =url, onsale = onsale, discount =discount)
 
 
 #approutes=============================================================================
@@ -149,11 +157,11 @@ class wooshSearch(object):
 
 	def index(self):
 		
-		with open(r"finalwlyrics.csv",encoding="utf8") as csv_file:
+		with open(r"finalwlyricsexample.csv",encoding="utf8") as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=',')
 			df = pd.DataFrame([csv_reader], index=None) 
 			df.head() 
-		schema = Schema(artist_id=TEXT(stored=True), artist=TEXT(stored=True), album=TEXT(stored = True),album_release=TEXT(stored = True),artist_image=TEXT(stored = True),album_art=TEXT(stored = True),preview_link=TEXT(sortable=True),link_tosong=TEXT(stored = True),lyrics=TEXT(stored = True),related_artists=TEXT(stored = True),artist_genres=TEXT(stored = True),date_released=TEXT(stored = True))
+		schema = Schema(artist_id=TEXT(stored=True), artist=TEXT(stored=True), album=TEXT(stored = True),album_release=TEXT(stored = True),track =TEXT(stored = True),artist_image=TEXT(stored = True),album_art=TEXT(stored = True),preview_link=TEXT(sortable=True),link_tosong=TEXT(stored = True),lyrics=TEXT(stored = True),related_artists=TEXT(stored = True),artist_genres=TEXT(stored = True),date_released=TEXT(stored = True))
 		
 		ix = create_in('exampleIndex', schema)
 		
@@ -170,14 +178,15 @@ class wooshSearch(object):
 						   artist =(val[1]),
 						   album =(val[2]),
 						   album_release =(val[3]),
-						   artist_image =(val[4]),
-						   album_art =(val[5]),
-						   preview_link =(val[6]),
-						   link_tosong =(val[7]),
-						   lyrics =(val[8]),
-						   related_artists = (val[9]),
-						   artist_genres = (val[10]),
-						   date_released = (val[11]))
+						   track=(val[4]),
+						   artist_image =(val[5]),
+						   album_art =(val[6]),
+						   preview_link =(val[7]),
+						   link_tosong =(val[8]),
+						   lyrics =(val[9]),
+						   related_artists = (val[10]),
+						   artist_genres = (val[11]),
+						   date_released = (val[12]))
 
 				writer.commit()
 				self.ix = ix
@@ -194,6 +203,7 @@ class wooshSearch(object):
 		artist = list()
 		album= list()
 		album_release= list()
+		track = list()
 		artist_image= list()
 		album_art= list()
 		preview_link= list()
@@ -212,10 +222,9 @@ class wooshSearch(object):
 		schema = ix.schema
 		# Create query parser that looks through designated fields in index
 		og = qparser.OrGroup.factory(0.9)
-		mp = qparser.MultifieldParser(['artist_id', 'artist','album','album_release','artist_image','album_art','preview_link','link_tosong','lyrics','related_artists','artist_genres','date_released'], schema =self.ix.schema, group = og)
+		mp = qparser.MultifieldParser(['artist_id', 'artist','album','album_release','track','artist_image','album_art','preview_link','link_tosong','lyrics','related_artists','artist_genres','date_released'], schema =self.ix.schema, group = og)
 
-		# This is the user query
-		#query = input("Please enter a Title, Year, Rating, IMDB tag, or some type of key word description:")
+
 		q = mp.parse(queryEntered)
 		#threshold = int(input("How many results would you like?:"))
 		# Actual searcher, prints top 10 hits
@@ -232,6 +241,7 @@ class wooshSearch(object):
 					artist.append(i['artist'])
 					album.append(i['album'])
 					album_release.append(i['album_release'])
+					track.append(i['track'])
 					artist_image.append(i['artist_image'])
 					album_art.append(i['album_art'])
 					preview_link.append(i['preview_link'])
@@ -243,7 +253,7 @@ class wooshSearch(object):
 
 			except IndexError:							#if it doesnt find x number of results it catches the error 
 				pass									#program goes into the infinite while loop for another query
-		return  artist_id, artist, album, album_release, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released , page, len(results)
+		return  artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, related_artists, artist_genres, date_released , page, len(results)
 
 
 	def price_search(self,queryEntered,page):
@@ -296,11 +306,18 @@ class wooshSearch(object):
 if __name__ == '__main__':
 	
 	global mysearch
-	
 	mysearch = wooshSearch()
-
+	
+	#mysearch.index_search()
 	mysearch.index()
-
+	
 	app.run(debug=True, use_reloader =False)
+
+	
+
+	
+
+
+	
 	
 	
