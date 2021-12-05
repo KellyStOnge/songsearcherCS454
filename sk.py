@@ -26,22 +26,25 @@ request_count = 0
 
 i = 1
 
-#file = open('popular_artists.csv', 'w')
-#writer = csv.writer(file)
+file = open('popular_artists.csv', 'w')
+writer = csv.writer(file)
 
-#writer.writerow(['Artist'])
+writer.writerow(['Artist'])
 
-#for i in range(1,6):
-	#URL = "https://www.songkick.com/leaderboards/popular_artists?page="+str(i)
-	#page = requests.get(URL)
-	#soup = BeautifulSoup(page.content)
-	#results = soup.find_all("td",class_="name")
-	#for x in results:
-		#name = x.find("a").text
-		#writer.writerow([name])
+for i in range(1,6):
+	URL = "https://www.songkick.com/leaderboards/popular_artists?page="+str(i)
+	page = requests.get(URL)
+	soup = BeautifulSoup(page.content)
+	results = soup.find_all("td",class_="name")
+	for x in results:
+		name = x.find("a").text
+		writer.writerow([name])
 
 
-#file.close()
+file.close()
+
+
+#SPOTIFY AUTHORIZATION
 
 client_id = '067cc1d0e5ff4c71b2310c788b98cb11'
 client_secret = '80176a5bf922484dbe69c0b96a5888e3'
@@ -58,70 +61,61 @@ csv_artist_albums_fields =['name', 'uri']
 final ="finalwlyrics.csv"
 
 
-
-
 with open('popular_artists.csv','r') as read_obj:
 	csv_dreader = DictReader(read_obj)
 	for row in csv_dreader:
 		name = row['Artist'] #chosen artist
 		result = sp.search(name) #search query
-		artist_results = sp.search(q='artist:' + name, type='artist')
+		artist_results = sp.search(q='artist:' + name, type='artist') # searches for artist in the popular artist list 
 
-		items = artist_results['artists']['items']
-		if len(items) > 0:
+		items = artist_results['artists']['items'] #stores the query format into items
+		
+		if len(items) > 0: #returns firsrt result / not always the best but gets it right 95% of the time
 			artist = items[0]
-			#print(artist['name'], artist['images'][0]['url'])
+
 
 		artist_info = result['tracks']['items'][0]['artists']
 
-		#print(artist['images'][0]['url'])
 
 		###########################
 
 		
 		
-		artist_uri = artist['uri']
+		artist_uri = artist['uri'] #stores the URI for the artist this is important because its the info for everything
 
 
-		relArtist = related_artists(artist['name'])
+		relArtist = related_artists(artist['name']) # storing related artist in this part of the for loop
 
-		artist_genres = artist['genres']
+		artist_genres = artist['genres']	# artist genres
 
 
 		
 
-		results = sp.artist_albums(artist_uri, album_type='album')
+		results = sp.artist_albums(artist_uri, album_type='album') # this is the individual albums of an artist
 		albums = results['items']
 		while results['next']:
 			results = sp.next(results)
 			albums.extend(results['items'])
 
 		for album in albums:
-			#print(album['name'])
-			#print(album['uri'])
-			#print(album['artists'][0]['name'], album['artists'][0]['uri'],album['name'],album['uri'],album['images'][0]['url'])
-			#print(album)
 
-			tracks = sp.album_tracks(album['uri'])
 
-			date_released = album["release_date"]
+			tracks = sp.album_tracks(album['uri']) # this gets all the tracks
 
-			#song = genius.search_song(song, album['artists'][0]['name'])
+			date_released = album["release_date"] # the release date for the album
 			
 
 			for track in range(len(tracks['items'])):
-				#print(album['artists'][0]['name']," - " , tracks['items'][track]['name'])
 
-				#print(tracks['items'][track]['uri'])
 
 				try:
-					song = genius.search_song(tracks['items'][track]['name'], album['artists'][0]['name'])
+					song = genius.search_song(tracks['items'][track]['name'], album['artists'][0]['name']) # this uses the genius (lyrics) api
 				except requests.exceptions.Timeout:
 
-					print("retrying because of Timeout")
+					print("retrying because of Timeout") #there were a lot of time outs this try except makes sure that the for loop covers that song
 					track -=2
 
-					time.sleep(10)
+					time.sleep(10) # giving it 10 seconds to retry
 					break	
 
 
@@ -129,7 +123,7 @@ with open('popular_artists.csv','r') as read_obj:
 				if song == None:
 					lyrics = None
 				else:
-					lyrics = song.lyrics.strip()
+					lyrics = song.lyrics.strip() # strips the lyrics if there is any
 
 				fields = ['artist_id','artist','album','album_release','track','artist_image','album_art','preview_link','link_tosong','lyrics',
 				'related_artists', 'artist_genres','date_released']
@@ -140,22 +134,13 @@ with open('popular_artists.csv','r') as read_obj:
 
 				print("\n\n\n\n\n")
 
-				with open(final, 'a') as f:
+				with open(final, 'a') as f: # writes all fields and other needed information to the csv 
 					writer = csv.writer(f)
-					#writer.writerow(fields)
 					writer.writerow(data)
 
 				
-
-
 		
 print("ITS done!!")
-
-
-
-#GENIUS WXr3SFXrdrlVSsy6oxlE2kwEpwxtN5y1VDSKHTen2zRzJ_twVi16oNEt3UjhhAAH
-#		ns62Pqx1n7nAqKyhjcJF0y-bYrObWqhfibogDjhqYIGufHloklFKmT3284RprGlWbnScRrkOp72YSChzLh9u2g
-
 
 
 
