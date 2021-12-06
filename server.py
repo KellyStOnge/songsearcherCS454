@@ -35,7 +35,7 @@ csv.field_size_limit(sys.maxsize)
 
 
 
-app = Flask(__name__, static_folder="/Users/kellyst.onge/Desktop/songsearcherCS454/static")
+app = Flask('__name__')
 
 
 app.config['SECRET_KEY'] = 'NOJERRYSALLOWEDbcSHBXUXs2123'

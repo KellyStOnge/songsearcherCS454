@@ -7,7 +7,9 @@
 
 </head>
 
-<body style="size:1040px;height:960px; background-image:url("{{url_for('static', filename = 'pexels-snapwire-6966.jpg')}}") no-repeat; background-size: cover">
+<div class="fixed-background">
+  <img src="https://i.ibb.co/mBMbLM0/pexels-snapwire-6966.jpg" height="100%" width="100%">
+</div>
 
 <div class="center">
 <form method="get" action="{{ url_for('results') }}">
@@ -17,5 +19,4 @@
 </form>
 
 </div>
-
 
