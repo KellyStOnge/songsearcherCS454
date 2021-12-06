@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      body {
-          background-image: url("{{url_for('static', filename = 'pexels-snapwire-6966.jpg')}}");
-        background-repeat: no-repeat;
-          background-attachment: fixed;  
-          background-size: cover;
-        }
-    </style>
-  </head>
-<body>
+<head>
+  <link rel="stylesheet" href="/Users/kellyst.onge/Desktop/songsearcherCS454/static/styles/mystyle.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mystyle.css') }}">
 
 
-    
 
-    <form method="get" action="{{ url_for('results') }}">
-      <label for="searchterm">Search For A Song:</label>
-      <input type="text" name="searchterm" /><br />
 
-    </form> 
+</head>
 
-  
+<body style="size:1040px;height:960px; background-image:url("{{url_for('static', filename = 'pexels-snapwire-6966.jpg')}}") no-repeat; background-size: cover">
 
-</body>
-</html>
+<div class="center">
+<form method="get" action="{{ url_for('results') }}">
+  <label for="search">Search for stuff</label>
+  <input type="text" placeholder="Search.." name="searchterm" /><br />
+  <button type="submit">Go</button>    
+</form>
+
+</div>
+
+

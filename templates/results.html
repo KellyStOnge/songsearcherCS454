@@ -12,6 +12,23 @@
 Song Searcher: Results:
 {% endblock %}
 
+{%block navbar%}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">Features</a>
+      <a class="nav-item nav-link" href="#">Pricing</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a>
+      </div>
+    </div>
+  </nav>
+
+{%endblock%}
 
 {% block content %}
 
@@ -57,8 +74,17 @@ Song Searcher: Results:
       <audio controls>
         <source src="{{preview_link[i]}}" type="audio/ogg">
       </audio>
+
       <p><a href="{{link_tosong[i]}}">Song Link To Spotify</a></p>
       <p><em>Genres: {{ artist_genres[i] }}</em></p>
+      <p><em>Related Artists: </em></p>
+      <p><a href="{{ ra1l[i]}}">{{ra1[i]}}</a></p>
+      <p><a href="{{ ra2l[i]}}">{{ra2[i]}}</a></p>
+      <p><a href="{{ ra3l[i]}}">{{ra3[i]}}</a></p>
+      <p><a href="{{ ra4l[i]}}">{{ra4[i]}}</a></p>
+      <p><a href="{{ ra5l[i]}}">{{ra5[i]}}</a></p>
+      
+
       
       
 
