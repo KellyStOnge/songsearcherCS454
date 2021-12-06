@@ -16,8 +16,6 @@ from whoosh.qparser import QueryParser
 from whoosh.qparser import MultifieldParser
 from whoosh import qparser
 from whoosh import fields, index, qparser
-from flask_nav import Nav
-from flask_nav.elements import Navbar , Subgroup, View, Link, Text, Separator
 
 
 import pandas as pd
@@ -26,9 +24,6 @@ from whoosh import index
 import sys
 import csv
 import math
-
-from nav import nav, ExtendedNavbar
-from flask_bootstrap import __version__ as FLASK_BOOTSTRAP_VERSION
 
 csv.field_size_limit(sys.maxsize)
 
