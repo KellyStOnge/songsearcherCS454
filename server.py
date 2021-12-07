@@ -24,8 +24,9 @@ from whoosh import index
 import sys
 import csv
 import math
+#===imports==================
 
-csv.field_size_limit(sys.maxsize)
+csv.field_size_limit(sys.maxsize) # for large csv files
 
 
 
@@ -583,6 +584,8 @@ if __name__ == '__main__':
 	
 	app.run(debug=True, use_reloader =False)
 
+
+#☁ ▅▒░☼‿☼░▒▅ ☁☁ ▅▒░☼‿☼░▒▅ ☁☁ ▅▒░☼‿☼░▒▅ ☁☁ ▅▒░☼‿☼░▒▅ ☁☁ ▅▒░☼‿☼░▒▅ ☁☁ ▅▒░☼‿☼░▒▅ ☁
 	
 
 	
