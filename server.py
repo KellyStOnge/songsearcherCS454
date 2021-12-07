@@ -40,9 +40,8 @@ bootstrap =Bootstrap(app)
 @app.route('/', methods=['GET', 'POST']) #main index page 
 def index():
 
-
-
 	return render_template('welcome_page.html')
+	#return render_template('advanced_welcome_page.html')
 
 
 
@@ -128,6 +127,39 @@ def results():
 		return render_template('welcome_page.html')
 	else:
 		return render_template('results.html', query=keywordquery, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
+		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
+
+
+
+@app.route('/advanced_results/', methods=['GET', 'POST'])
+def advanced_results():
+	global mysearch
+	page = 1
+	if request.method == 'POST':
+		data = request.form
+
+	else:
+		data = request.args
+
+	all_query = data.get('all_searchterm')
+	artist_query = data.get('artist_searchterm')
+	album_query = data.get('album_searchterm')
+	track_query = data.get('track_searchterm')
+	lyrics_query = data.get('lyrics_searchterm')
+	genres_query = data.get('genres_searchterm')
+
+
+	artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page \
+	, Results = mysearch.advanced_search(all_query, artist_query, album_query, track_query, lyrics_query, genres_query, page)
+	
+	pag = math.ceil(Results/10)
+
+	if Results == 0:
+		flash("Not in the search, try again")
+		return render_template('advanced_welcome_page.html')
+	else: # todo: add below into list after 'adv...html': , all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query
+		return render_template('advanced_results.html', query='', len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
 		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
 		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
 
@@ -297,6 +329,131 @@ class wooshSearch(object):
 
 
 
+	def advanced_search(self, all_query, artist_query, album_query, track_query, lyrics_query, genres_query, page):
+
+		artist_id = list()
+		artist = list()
+		album= list()
+		album_release= list()
+		track = list()
+		artist_image= list()
+		album_art= list()
+		preview_link= list()
+		link_tosong= list()
+		lyrics= list()
+		artist_genres= list()
+		date_released= list()
+		ra1 =list()
+		ra2 =list()
+		ra3 =list()
+		ra4 =list()
+		ra5 =list()
+		ra1l =list()
+		ra2l =list()
+		ra3l =list()
+		ra4l =list()
+		ra5l =list()
+
+		ix = open_dir('exampleIndex')
+		schema = ix.schema
+		# Create query parser that looks through designated fields in index
+		og = qparser.OrGroup.factory(0.9)
+		
+		# search all
+		mp = qparser.MultifieldParser(['artist_id', 'artist','album','album_release','track','artist_image','album_art','preview_link','link_tosong','lyrics','related_artists','artist_genres','date_released','ra1',
+			'ra2','ra3','ra4','ra5','ra1l','ra2l','ra3l','ra4l','ra5l'], schema =self.ix.schema, group = og)
+		q = mp.parse(all_query)
+		# search only artist
+		qp_ar = qparser.QueryParser('artist', schema=ix.schema, group=og) 
+		q_ar = qp_ar.parse(artist_query)
+		# search only album
+		qp_al = qparser.QueryParser('album', schema=ix.schema, group=og) 
+		q_al = qp_al.parse(album_query)
+		# search only track
+		qp_tr = qparser.QueryParser('track', schema=ix.schema, group=og) 
+		q_tr = qp_tr.parse(track_query)
+		# search only lyrics
+		qp_ly = qparser.QueryParser('lyrics', schema=ix.schema, group=og) 
+		q_ly = qp_ly.parse(lyrics_query)
+		# search only genres
+		qp_ge = qparser.QueryParser('artist_genres', schema=ix.schema, group=og) 
+		q_ge = qp_ge.parse(genres_query)
+		
+		
+		# Actual searcher
+		with ix.searcher() as s:
+			
+			all_results = s.search(q, limit=None)
+			artist_results = s.search(q_ar, limit=None)
+			album_results = s.search(q_al, limit=None)
+			track_results = s.search(q_tr, limit=None)
+			lyrics_results = s.search(q_ly, limit=None)
+			genres_results = s.search(q_ge, limit=None)
+			
+			Results = all_results
+			Results.upgrade_and_extend(artist_results)
+			Results.upgrade_and_extend(album_results)
+			Results.upgrade_and_extend(track_results)
+			Results.upgrade_and_extend(lyrics_results)
+			Results.upgrade_and_extend(genres_results)
+			
+			print("Search Results: ")
+			try:
+				for i in Results:
+
+					artist_id.append(i['artist_id'])
+					artist.append(i['artist'])
+					album.append(i['album'])
+					album_release.append(i['album_release'])
+					track.append(i['track'])
+					artist_image.append(i['artist_image'])
+					album_art.append(i['album_art'])
+					preview_link.append(i['preview_link'])
+					link_tosong.append(i['link_tosong'])
+					lyrics.append(i['lyrics'])
+					
+					artist_genres.append(i['artist_genres'])
+					date_released.append(i['date_released'])
+					ra1.append(i['ra1'])
+					ra2.append(i['ra2'])
+					ra3.append(i['ra3'])
+					ra4.append(i['ra4'])
+					ra4.append(i['ra5'])
+					ra1l.append(i['ra1l'])
+					ra2l.append(i['ra2l'])
+					ra3l.append(i['ra3l'])
+					ra4l.append(i['ra4l'])
+					ra5l.append(i['ra5l'])
+							
+			except IndexError:							#if it doesnt find x number of results it catches the error 
+				pass									#program goes into the infinite while loop for another query
+		#return  artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released ,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page, len(results)
+		return  artist_id[:5] \
+		, artist[:5] \
+		, album[:5] \
+		, album_release[:5] \
+		,track[:5] \
+		, artist_image[:5] \
+		, album_art[:5] \
+		, preview_link[:5] \
+		, link_tosong[:5] \
+		, lyrics[:5] \
+		, artist_genres[:5] \
+		, date_released[:5] \
+		, ra1[:5] \
+		, ra2[:5] \
+		, ra3[:5] \
+		, ra4[:5] \
+		, ra5[:5] \
+		, ra1l[:5] \
+		, ra2l[:5] \
+		, ra3l[:5] \
+		, ra4l[:5] \
+		, ra5l[:5] \
+		, page \
+		, len(Results)
+
+
 if __name__ == '__main__':
 	
 	global mysearch
@@ -314,4 +471,5 @@ if __name__ == '__main__':
 
 	
 	
+
 	
