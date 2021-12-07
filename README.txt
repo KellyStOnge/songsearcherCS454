@@ -1,3 +1,8 @@
+
+sk.py is the scraper 
+
+related.py is grabing the related artists and is a module for server.py
+
 https://python-adv-web-apps.readthedocs.io/en/latest/flask.html
 
 go here to set up flask virtual environment ^^^
