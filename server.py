@@ -107,6 +107,85 @@ def previous(q,p):
 		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
 
 
+
+
+# ADVANCED PREV AND NEXT #########################################
+
+@app.route('/adv_next/<qp>/<qp_ar>/<qp_al>/<qp_tr>/<qp_ly>/<qp_ge>/<pp>' , methods=["GET", "POST"])
+def adv_next(qp, qp_ar, qp_al, qp_tr, qp_ly, qp_ge, pp):
+	global mysearch
+	data = request.form 	#pass the variables of the search to next , get page and increment it
+
+	all_query=qp
+	artist_query=qp_ar
+	album_query=qp_al
+	track_query=qp_tr
+	lyrics_query=qp_ly
+	genres_query=qp_ge
+
+	int(pp)
+
+	page = int(pp)
+
+	
+	artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page \
+	, Results = mysearch.advanced_search(all_query, artist_query, album_query, track_query, lyrics_query, genres_query, page+1)
+	
+	pag = math.ceil(Results/10)
+
+	if page == pag: #
+		page -=1	# SO IT DOESNT PASS THE TOTAL NUMBER OF PAGES
+		return render_template('advanced_results.html', all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
+		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
+	else:
+		return render_template('advanced_results.html', all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
+		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
+
+@app.route('/adv_previous/<q>/<q_ar>/<q_al>/<q_tr>/<q_ly>/<q_ge>/<p>' , methods=["GET", "POST"])
+def adv_previous(q, q_ar, q_al, q_tr, q_ly, q_ge, p):
+	global mysearch
+	data = request.form
+
+	all_query=q
+	artist_query=q_ar
+	album_query=q_al
+	track_query=q_tr
+	lyrics_query=q_ly
+	genres_query=q_ge
+	
+	int(p)
+
+	page = int(p)
+
+
+	if page <=1:
+		page==2
+		
+		artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page \
+		, Results = mysearch.advanced_search(all_query, artist_query, album_query, track_query, lyrics_query, genres_query, page)
+	
+		pag = math.ceil(Results/10)
+
+		return render_template('advanced_results.html', all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
+		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
+		
+	else:
+		print(page)
+		artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page \
+		, Results = mysearch.advanced_search(all_query, artist_query, album_query, track_query, lyrics_query, genres_query, page-1)
+
+		pag = math.ceil(Results/10)
+
+		return render_template('advanced_results.html', all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
+		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
+
+# end adv prev and next ###################
+
+
 @app.route('/results/', methods=['GET', 'POST'])
 def results():
 	global mysearch
@@ -160,8 +239,8 @@ def advanced_results():
 	if Results == 0:
 		flash("Not in the search, try again")
 		return render_template('advanced_welcome_page.html')
-	else: # todo: add below into list after 'adv...html': , all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query
-		return render_template('advanced_results.html', query='', len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
+	else:
+		return render_template('advanced_results.html', all_query=all_query, artist_query=artist_query, album_query=album_query, track_query=track_query, lyrics_query=lyrics_query, genres_query=genres_query, len = len(artist), pag = pag , page = page, artist_id = artist_id, artist= artist, album =album, album_release =album_release, track = track, artist_image= artist_image, album_art = album_art, 
 		 preview_link = preview_link, link_tosong =link_tosong, lyrics =lyrics, artist_genres =artist_genres,date_released =date_released,ra1=ra1,ra2=ra2,ra3=ra3,ra4=ra4,ra5=ra5,ra1l=ra1l,
 		 ra2l=ra2l,ra3l=ra3l,ra4l=ra4l,ra5l=ra5l)
 
@@ -392,12 +471,46 @@ class wooshSearch(object):
 			lyrics_results = s.search(q_ly, limit=None)
 			genres_results = s.search(q_ge, limit=None)
 			
-			Results = all_results
-			Results.upgrade_and_extend(artist_results)
-			Results.upgrade_and_extend(album_results)
-			Results.upgrade_and_extend(track_results)
-			Results.upgrade_and_extend(lyrics_results)
-			Results.upgrade_and_extend(genres_results)
+			a = 0
+			if all_query != '':
+				a = 1
+				Results = all_results
+			
+			if artist_query != '':
+				if a == 0:
+					a = 1
+					Results = artist_results
+				else:
+					Results.filter(artist_results)
+			
+			if album_query != '':
+				if a == 0:
+					a = 1
+					Results = album_results
+				else:
+					Results.filter(album_results)
+			
+			if track_query != '':
+				if a == 0:
+					a = 1
+					Results = track_results
+				else:
+					Results.filter(track_results)
+			
+			if lyrics_query != '':
+				if a == 0:
+					a = 1
+					Results = lyrics_results
+				else:
+					Results.filter(lyrics_results)
+			
+			if genres_query != '':
+				if a == 0:
+					a = 1
+					Results = genres_results
+				else:
+					Results.filter(genres_results)
+			
 			
 			print("Search Results: ")
 			try:
@@ -430,28 +543,32 @@ class wooshSearch(object):
 			except IndexError:							#if it doesnt find x number of results it catches the error 
 				pass									#program goes into the infinite while loop for another query
 		#return  artist_id, artist, album, album_release,track, artist_image, album_art, preview_link, link_tosong, lyrics, artist_genres, date_released ,ra1,ra2,ra3,ra4,ra5,ra1l,ra2l,ra3l,ra4l,ra5l, page, len(results)
-		return  artist_id[:5] \
-		, artist[:5] \
-		, album[:5] \
-		, album_release[:5] \
-		,track[:5] \
-		, artist_image[:5] \
-		, album_art[:5] \
-		, preview_link[:5] \
-		, link_tosong[:5] \
-		, lyrics[:5] \
-		, artist_genres[:5] \
-		, date_released[:5] \
-		, ra1[:5] \
-		, ra2[:5] \
-		, ra3[:5] \
-		, ra4[:5] \
-		, ra5[:5] \
-		, ra1l[:5] \
-		, ra2l[:5] \
-		, ra3l[:5] \
-		, ra4l[:5] \
-		, ra5l[:5] \
+		
+		results_min = (page-1)*10
+		results_max = page*10
+		
+		return  artist_id[results_min:results_max] \
+		, artist[results_min:results_max] \
+		, album[results_min:results_max] \
+		, album_release[results_min:results_max] \
+		,track[results_min:results_max] \
+		, artist_image[results_min:results_max] \
+		, album_art[results_min:results_max] \
+		, preview_link[results_min:results_max] \
+		, link_tosong[results_min:results_max] \
+		, lyrics[results_min:results_max] \
+		, artist_genres[results_min:results_max] \
+		, date_released[results_min:results_max] \
+		, ra1[results_min:results_max] \
+		, ra2[results_min:results_max] \
+		, ra3[results_min:results_max] \
+		, ra4[results_min:results_max] \
+		, ra5[results_min:results_max] \
+		, ra1l[results_min:results_max] \
+		, ra2l[results_min:results_max] \
+		, ra3l[results_min:results_max] \
+		, ra4l[results_min:results_max] \
+		, ra5l[results_min:results_max] \
 		, page \
 		, len(Results)
 
