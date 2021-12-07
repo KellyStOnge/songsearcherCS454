@@ -1,0 +1,124 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %} <!-- styleing background color-->
+{{ super() }}
+  <style>
+    body { background: #ffff; }
+  </style>
+{% endblock %}
+
+
+{% block title %}
+Song Searcher: Results:
+{% endblock %}
+
+{%block navbar%}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">Features</a>
+      <a class="nav-item nav-link" href="#">Pricing</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a>
+      </div>
+    </div>
+  </nav>
+
+{%endblock%}
+
+{% block content %}
+
+{%for i in range(0, len)%}
+
+<div class="container-fluid" style="border:1px #cecece;">
+  <div class="row">
+    <div class="col-sm-6">
+
+      <!-- links to return to search page or link to purchase-->
+      <img  clss="img-responsive" src="{{ artist_image[i] }}"  width="400" height="400">
+      
+      <h1 class="pt-5 pb-2">{{ artist[i] }} - {{track[i]}}</h1>
+
+
+      <p><em>Lyrics: {{ lyrics[i] }}</em></p>
+      <p><a href="{{ url_for('index') }}">Return to search page</a></p>
+      <p><a href="{{ artist_image[i]}}">Link to purchase</a></p>
+
+
+    
+
+    </div>
+
+
+    <div class="col-sm-6"> <!-- Displaying the returned values -->
+
+
+      <!--<img src="{{ artist_image[i] }}" alt="Photo: {{ artist[i] }}" class="img-fluid pt-5">-->
+
+    
+      
+     
+
+     <img  clss="img-responsive" src="{{ album_art[i] }}"  width="200" height="200">
+     <p><em>Album: {{ album[i] }}</em></p>
+
+      <p><em>album release: {{ album_release[i] }}</em></p>
+      
+      
+
+      <p><em>Track Name: {{ track[i] }}</em></p>
+      <audio controls>
+        <source src="{{preview_link[i]}}" type="audio/ogg">
+      </audio>
+
+      <p><a href="{{link_tosong[i]}}">Song Link To Spotify</a></p>
+      <p><em>Genres: {{ artist_genres[i] }}</em></p>
+      <p><em>Related Artists: </em></p>
+      <p><a href="{{ ra1l[i]}}">{{ra1[i]}}</a></p>
+      <p><a href="{{ ra2l[i]}}">{{ra2[i]}}</a></p>
+      <p><a href="{{ ra3l[i]}}">{{ra3[i]}}</a></p>
+      <p><a href="{{ ra4l[i]}}">{{ra4[i]}}</a></p>
+      <p><a href="{{ ra5l[i]}}">{{ra5[i]}}</a></p>
+      
+
+      
+      
+
+
+    </div>
+  </div>
+</div>
+
+{%endfor%}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+
+
+        <!-- note, approuting tags for pagination -->
+ 
+      <body>
+        <form method="post" action="{{ url_for('next', qp=query, pp=page) }}">
+          <input type="submit" value = "Next Page" />
+        </form> 
+      
+
+        <p><em> Page:{{page}} / of {{pag}} </em></p>
+  
+      
+        <form method="post" action="{{ url_for('previous', q=query, p=page) }}">
+          <input type="submit" value = "Previous Page" />
+        </form> 
+      </body> 
+     
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
