@@ -43,7 +43,9 @@ def index():
 	return render_template('welcome_page.html')
 	#return render_template('advanced_welcome_page.html')
 
-
+@app.route('/adv')
+def adv():
+	return render_template('advanced_welcome_page.html')
 
 @app.route('/next/<qp>/<pp>' , methods=["GET", "POST"])
 def next(qp,pp):

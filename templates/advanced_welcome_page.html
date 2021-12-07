@@ -1,14 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+
 <head>
   <link rel="stylesheet" href="/Users/kellyst.onge/Desktop/songsearcherCS454/static/styles/mystyle.css">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mystyle.css') }}">
 
-
-
-
 </head>
 
 <div class="fixed-background">
-  <img src="https://i.ibb.co/mBMbLM0/pexels-snapwire-6966.jpg" height="100%" width="100%">
+  <img src="https://i.ibb.co/nP6szM8/pexels-snapwire-6966adv.jpg" height="100%" width="100%">
 </div>
 
 <div class="center">
@@ -16,26 +20,29 @@
 <form method="get" action="{{ url_for('advanced_results') }}">
 	
 	<label for="all_searchterm">Search In All Fields:</label>
-	<input type="text" name="all_searchterm" /><br />
+	<input type="text" placeholder="All Fields..." name="all_searchterm" /><br />
 	
 	<label for="artist_searchterm">Artist Name Search:</label>
-	<input type="text" name="artist_searchterm" /><br />
+	<input type="text" placeholder="Artist Search..." name="artist_searchterm" /><br />
 	
 	<label for="album_searchterm">Album Title Search:</label>
-	<input type="text" name="album_searchterm" /><br />
+	<input type="text" placeholder="Album Search..." name="album_searchterm" /><br />
 	
 	<label for="track_searchterm">Track Title Search:</label>
-	<input type="text" name="track_searchterm" /><br />
+	<input type="text" placeholder="Track Search..." name="track_searchterm" /><br />
 	
-	<label for="lyrics_searchterm">Track Title Search:</label>
-	<input type="text" name="lyrics_searchterm" /><br />
+	<label for="lyrics_searchterm">Lyrics:</label>
+	<input type="text" placeholder="Lyrics Search..." name="lyrics_searchterm" /><br />
 	
 	<label for="genres_searchterm">Lyrics Search:</label>
-	<input type="text" name="genres_searchterm" /><br />
+	<input type="text" placeholder="Genres Search" name="genres_searchterm" /><br />
 	
 	<br /><button type="submit">Go</button>
 
 </form>	
 
 </div>
+
+
+{% endblock %}
 

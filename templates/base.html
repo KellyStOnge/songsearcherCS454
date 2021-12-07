@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Song Searcher</title>
+      {% else %}
+      <title>Welcome to Song Searcher</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>
+            Song Searcher:
+             <a href="/">Home</a>  
+             <a href="/adv">Advanced Search</a></div>
+
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
