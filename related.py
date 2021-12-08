@@ -12,8 +12,8 @@ import numpy as np
 from lyricsgenius import Genius
 
 
-client_id = '067cc1d0e5ff4c71b2310c788b98cb11'
-client_secret = '80176a5bf922484dbe69c0b96a5888e3'
+client_id = '067cc1d0NOSOUPFORYOU788b98cb11' #linden find a key
+client_secret = '80176a5bf9NOSOUPFORYOUb96a5888e3' #Linden find a key via spotipy api
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager) #spotify object to access API
 

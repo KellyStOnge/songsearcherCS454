@@ -263,12 +263,12 @@ class wooshSearch(object):
 
 	def index(self):
 		
-		with open(r"finalwlyrics.csv",encoding="utf8") as csv_file:
+		with open(r"finalwlyrics1.csv",encoding="utf8") as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=',')
 			df = pd.DataFrame([csv_reader], index=None) 
 			df.head() 
 
-			data = pd.read_csv("finalwlyrics.csv")
+			data = pd.read_csv("finalwlyrics1.csv")
 
 			related_keys = data['related_artists'].map(eval)
 

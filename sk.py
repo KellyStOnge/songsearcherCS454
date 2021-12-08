@@ -14,7 +14,7 @@ import numpy as np
 from lyricsgenius import Genius
 
 
-genius = Genius('IFhK-56V9SWQbSfo-XcvYwtAQOMK_ps0pL0U91fqa_SYCMVxXJzea9VNYcXti7gT')
+genius = Genius('IFhK-56V9SWfo-XcvYNOSOUP4Uqa_SYCMVxXJzea9VNYcXti7gT') #destroyed keys for showing code on GITHUB
 
 sleep_min = 2
 sleep_max = 5
@@ -46,8 +46,8 @@ file.close()
 
 #SPOTIFY AUTHORIZATION
 
-client_id = '067cc1d0e5ff4c71b2310c788b98cb11'
-client_secret = '80176a5bf922484dbe69c0b96a5888e3'
+client_id = '067cc1d0e5ff4c7NOSOUP4Uc7b98cb11'
+client_secret = '80176a5bf92NOSOUP4Uc0b96a5888e3'
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager) #spotify object to access API
 
